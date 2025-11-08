@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>PizzaNow - Mobile</title>
+  <style>
+    :root{
+      --primary:#E63946;
+      --secondary:#1D3557;
+      --accent:#F1FAEE;
+      --bg:#F9FAFB;
+      --text:#1A1A1A;
+      --success:#4CAF50;
+      --error:#B00020;
+      --muted:#6B7280;
+      --radius:16px;
+      --space:12px;
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,Arial,sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      overflow-x:hidden;
+    }
+    
+    /* Mobile App Container */
+    .mobile-app{
+      display:flex;
+      flex-direction:column;
+      min-height:100vh;
+      max-width:100vw;
+      padding-bottom:70px;
+    }
+    
+    /* Top Bar */
+    .top-bar{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:white;
+      padding:12px 16px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.08);
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo-mobile{
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      background:var(--primary);
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      color:white;
+      font-size:14px;
+    }
+    .brand-text{
+      font-weight:800;
+      font-size:18px;
+      color:var(--secondary);
+      flex:1;
+    }
+    .pill{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:12px;
+      background:#EEF2FF;
+      color:#3B82F6;
+      font-weight:600;
+    }
+    
+    /* Search Bar */
+    .search-container{
+      padding:12px 16px;
+      background:white;
+    }
+    .search-box{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .input{
+      flex:1;
+      border:1px solid #E5E7EB;
+      border-radius:12px;
+      padding:12px 16px;
+      outline:none;
+      font-size:15px;
+    }
+    .btn{
+      border:0;
+      background:var(--primary);
+      color:white;
+      padding:12px 20px;
+      border-radius:12px;
+      font-weight:600;
+      cursor:pointer;
+      font-size:15px;
+      white-space:nowrap;
+    }
+    .btn.secondary{background:#0EA5E9}
+    .btn.ghost{background:white;color:var(--secondary);border:1px solid #E5E7EB}
+    .btn.full{width:100%}
+    
+    /* Content Area */
+    .content{
+      flex:1;
+      padding:16px;
+      display:none;
+    }
+    .content.active{display:block;animation:slideIn .3s ease}
+    @keyframes slideIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+    
+    .section-title{
+      font-weight:800;
+      font-size:20px;
+      margin:0 0 16px 0;
+      color:var(--secondary);
+    }
+    
+    /* Cards */
+    .card{
+      border:1px solid #E5E7EB;
+      border-radius:16px;
+      overflow:hidden;
+      background:white;
+      box-shadow:0 2px 8px rgba(16,24,40,.06);
+      margin-bottom:16px;
+    }
+    .card-img{
+      height:180px;
+      background:#f6f7f9 url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22180%22><rect width=%22240%22 height=%22180%22 fill=%22%23f6f7f9%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%23c1c7d0%22 font-size=%2216%22 text-anchor=%22middle%22 dy=%22.3em%22>pizza image</text></svg>') center/cover no-repeat;
+    }
+    .card-body{padding:16px}
+    .card-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:8px;
+    }
+    .card-title{font-weight:700;font-size:17px;color:var(--secondary)}
+    .price{font-weight:700;color:var(--primary);font-size:17px}
+    .rating{color:#F59E0B;font-weight:600}
+    .hint{font-size:13px;color:var(--muted);margin-bottom:12px}
+    .card-actions{display:flex;gap:8px}
+    
+    /* Promo Card */
+    .promo-card{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:16px;
+    }
+    .promo-icon{
+      width:48px;
+      height:48px;
+      border-radius:12px;
+      flex-shrink:0;
+    }
+    .promo-content{flex:1}
+    .promo-title{font-weight:700;font-size:15px;margin-bottom:4px}
+    
+    /* Filter Pills */
+    .filter-row{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      padding-bottom:8px;
+      margin-bottom:16px;
+      -webkit-overflow-scrolling:touch;
+    }
+    .filter-row::-webkit-scrollbar{display:none}
+    .filter-pill{
+      padding:8px 16px;
+      border-radius:999px;
+      font-size:13px;
+      background:white;
+      border:1px solid #E5E7EB;
+      color:var(--text);
+      font-weight:600;
+      white-space:nowrap;
+      cursor:pointer;
+    }
+    .filter-pill.active{
+      background:var(--primary);
+      color:white;
+      border-color:var(--primary);
+    }
+    
+    /* Form Elements */
+    .form-group{margin-bottom:16px}
+    .form-label{
+      display:block;
+      font-weight:600;
+      font-size:14px;
+      margin-bottom:6px;
+      color:var(--secondary);
+    }
+    .radio-group, .checkbox-group{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .radio-item, .checkbox-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px;
+      background:white;
+      border:1px solid #E5E7EB;
+      border-radius:12px;
+    }
+    
+    /* List Items */
+    .list-item{
+      display:flex;
+      justify-content:space-between;
+      padding:14px 0;
+      border-bottom:1px solid #F3F4F6;
+    }
+    .list-item:last-child{border-bottom:none}
+    
+    /* Panel */
+    .panel{
+      background:white;
+      border-radius:16px;
+      padding:16px;
+      margin-bottom:16px;
+      box-shadow:0 1px 3px rgba(0,0,0,0.08);
+    }
+    .panel-title{
+      font-weight:700;
+      font-size:16px;
+      margin:0 0 12px 0;
+      color:var(--secondary);
+    }
+    
+    /* Map Placeholder */
+    .map-placeholder{
+      height:240px;
+      background:#E5E7EB;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      color:var(--muted);
+      font-size:14px;
+      margin-bottom:16px;
+    }
+    
+    /* Status Badge */
+    .status-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#DCFCE7;
+      color:#16A34A;
+      font-weight:600;
+      font-size:13px;
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav{
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      background:white;
+      border-top:1px solid #E5E7EB;
+      display:flex;
+      justify-content:space-around;
+      padding:8px 0;
+      z-index:100;
+      box-shadow:0 -2px 8px rgba(0,0,0,0.06);
+    }
+    .nav-item{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:4px;
+      padding:8px 12px;
+      color:var(--muted);
+      font-size:11px;
+      font-weight:600;
+      cursor:pointer;
+      text-decoration:none;
+      min-width:60px;
+    }
+    .nav-item.active{color:var(--primary)}
+    .nav-item.active .nav-icon{filter:brightness(0) saturate(100%) invert(30%) sepia(95%) saturate(2343%) hue-rotate(337deg) brightness(95%) contrast(92%)}
+    .nav-icon{
+      width:24px;
+      height:24px;
+      opacity:0.6;
+    }
+    .nav-item.active .nav-icon{opacity:1}
+    
+    /* Utilities */
+    .text-center{text-align:center}
+    .mt-16{margin-top:16px}
+    .mb-16{margin-bottom:16px}
+    .gap-8{gap:8px}
+    .flex{display:flex}
+    .items-center{align-items:center}
+    .justify-between{justify-content:space-between}
+    
+    /* Order Now Button */
+    .order-now-btn{
+      position:fixed;
+      bottom:80px;
+      right:16px;
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      background:var(--primary);
+      color:white;
+      border:0;
+      box-shadow:0 4px 12px rgba(230,57,70,0.4);
+      font-size:24px;
+      cursor:pointer;
+      z-index:99;
+      display:grid;
+      place-items:center;
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-app">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <img src="logo.jpeg" alt="PizzaNow Logo" class="logo-mobile" style="width:32px;height:32px;border-radius:50%;object-fit:cover;background:none">
+      <div class="brand-text">PizzaNow</div>
+      <span class="pill">Logged in</span>
+    </div>
+
+    <!-- Home Screen -->
+    <div class="content active" id="home">
+      <!-- Search -->
+      <div class="search-container" style="margin:-12px -16px 0;margin-bottom:16px">
+        <div class="search-box">
+          <input class="input" placeholder="Search restaurants or pizzas…">
+          <button class="btn">Search</button>
+        </div>
+      </div>
+
+      <h2 class="section-title">Nearby Restaurants</h2>
+      
+      <div class="card">
+        <div class="card-img"></div>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">Napoli Express</span>
+            <span class="rating">4.6 ★</span>
+          </div>
+          <div class="hint">Italian • 25–35 min • $</div>
+          <div class="card-actions">
+            <button class="btn" onclick="go('menu')">View Menu</button>
+            <button class="btn ghost">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"></div>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">Roma Slice</span>
+            <span class="rating">4.4 ★</span>
+          </div>
+          <div class="hint">Italian • 20–30 min • $$</div>
+          <div class="card-actions">
+            <button class="btn" onclick="go('menu')">View Menu</button>
+            <button class="btn ghost">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"></div>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">Brooklyn Pie</span>
+            <span class="rating">4.8 ★</span>
+          </div>
+          <div class="hint">New York • 30–40 min • $$</div>
+          <div class="card-actions">
+            <button class="btn" onclick="go('menu')">View Menu</button>
+            <button class="btn ghost">Save</button>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title mt-16">Promotions</h2>
+      
+      <div class="card">
+        <div class="card-body promo-card">
+          <div class="promo-icon" style="background:var(--primary)"></div>
+          <div class="promo-content">
+            <div class="promo-title">2x1 Tuesdays</div>
+            <div class="hint">Buy one get one free on classic pizzas</div>
+          </div>
+          <button class="btn" onclick="go('menu')">Order</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body promo-card">
+          <div class="promo-icon" style="background:#0EA5E9"></div>
+          <div class="promo-content">
+            <div class="promo-title">Free Delivery</div>
+            <div class="hint">Orders over $25</div>
+          </div>
+          <button class="btn ghost" onclick="go('menu')">See menu</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu Screen -->
+    <div class="content" id="menu">
+      <!-- Search -->
+      <div class="search-container" style="margin:-16px -16px 0;margin-bottom:16px">
+        <div class="search-box">
+          <input class="input" placeholder="Search pizzas…">
+          <button class="btn">Search</button>
+        </div>
+      </div>
+
+      <h2 class="section-title">Menu</h2>
+      
+      <div class="filter-row">
+        <div class="filter-pill active">All</div>
+        <div class="filter-pill">Vegetarian</div>
+        <div class="filter-pill">Spicy</div>
+        <div class="filter-pill">Best Seller</div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"></div>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">Margherita</span>
+            <span class="price">$9.90</span>
+          </div>
+          <div class="hint">Tomato • Mozzarella • Basil</div>
+          <div class="card-actions">
+            <button class="btn" onclick="go('customize')">Customize</button>
+            <button class="btn ghost" onclick="go('cart')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"></div>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">Pepperoni</span>
+            <span class="price">$11.50</span>
+          </div>
+          <div class="hint">Pepperoni • Cheese • Oregano</div>
+          <div class="card-actions">
+            <button class="btn" onclick="go('customize')">Customize</button>
+            <button class="btn ghost" onclick="go('cart')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"></div>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">BBQ Chicken</span>
+            <span class="price">$12.90</span>
+          </div>
+          <div class="hint">Chicken • BBQ Sauce • Onion</div>
+          <div class="card-actions">
+            <button class="btn" onclick="go('customize')">Customize</button>
+            <button class="btn ghost" onclick="go('cart')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img"></div>
+        <div class="card-body">
+          <div class="card-header">
+            <span class="card-title">Veggie</span>
+            <span class="price">$10.90</span>
+          </div>
+          <div class="hint">Peppers • Olives • Mushrooms</div>
+          <div class="card-actions">
+            <button class="btn" onclick="go('customize')">Customize</button>
+            <button class="btn ghost" onclick="go('cart')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customize Screen -->
+    <div class="content" id="customize">
+      <h2 class="section-title">Customize Pizza</h2>
+
+      <div class="panel">
+        <h3 class="panel-title">Choose Size</h3>
+        <div class="radio-group">
+          <div class="radio-item">
+            <span>Small (25 cm)</span>
+            <input type="radio" name="size">
+          </div>
+          <div class="radio-item">
+            <span>Medium (30 cm)</span>
+            <input type="radio" name="size" checked>
+          </div>
+          <div class="radio-item">
+            <span>Large (35 cm)</span>
+            <input type="radio" name="size">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Crust Type</h3>
+        <div class="radio-group">
+          <div class="radio-item">
+            <span>Classic</span>
+            <input type="radio" name="crust" checked>
+          </div>
+          <div class="radio-item">
+            <span>Thin</span>
+            <input type="radio" name="crust">
+          </div>
+          <div class="radio-item">
+            <span>Cheese-stuffed</span>
+            <input type="radio" name="crust">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Extra Toppings</h3>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <span>Mozzarella</span>
+            <input type="checkbox" checked>
+          </div>
+          <div class="checkbox-item">
+            <span>Pepperoni (+$2)</span>
+            <input type="checkbox">
+          </div>
+          <div class="checkbox-item">
+            <span>Mushrooms (+$1)</span>
+            <input type="checkbox">
+          </div>
+          <div class="checkbox-item">
+            <span>Onion (+$0.50)</span>
+            <input type="checkbox">
+          </div>
+          <div class="checkbox-item">
+            <span>Olives (+$1)</span>
+            <input type="checkbox">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="flex justify-between items-center mb-16">
+          <span style="font-size:18px;font-weight:700">Total:</span>
+          <span class="price" style="font-size:22px">$12.90</span>
+        </div>
+        <button class="btn full" onclick="go('cart')">Add to Cart</button>
+      </div>
+    </div>
+
+    <!-- Cart Screen -->
+    <div class="content" id="cart">
+      <h2 class="section-title">Cart & Checkout</h2>
+
+      <div class="panel">
+        <h3 class="panel-title">Order Summary</h3>
+        <div class="list-item">
+          <span>Margherita × 1</span>
+          <strong>$9.90</strong>
+        </div>
+        <div class="list-item">
+          <span>Pepperoni × 1</span>
+          <strong>$11.50</strong>
+        </div>
+        <div class="list-item">
+          <span style="color:var(--muted)">Delivery</span>
+          <strong>$2.00</strong>
+        </div>
+        <div class="list-item">
+          <span style="font-weight:700;font-size:16px">Total</span>
+          <span class="price" style="font-size:18px">$23.40</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Payment Details</h3>
+        <div class="form-group">
+          <label class="form-label">Card Number</label>
+          <input class="input" placeholder="**** **** **** 4242">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Expiry Date</label>
+          <input class="input" placeholder="MM/YY">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVC</label>
+          <input class="input" placeholder="***">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Delivery Address</label>
+          <input class="input" placeholder="Street, City">
+        </div>
+      </div>
+
+      <button class="btn full" onclick="go('tracking')">Pay & Place Order</button>
+    </div>
+
+    <!-- Tracking Screen -->
+    <div class="content" id="tracking">
+      <h2 class="section-title">Order Tracking</h2>
+
+      <div class="panel">
+        <div class="flex justify-between items-center mb-16">
+          <div>
+            <div style="font-weight:700;font-size:16px">Order #PN-10293</div>
+            <div class="hint">Placed 5 min ago</div>
+          </div>
+          <span class="status-badge">● On the way</span>
+        </div>
+        <div class="hint" style="font-size:14px;margin-bottom:12px">ETA: 12 minutes</div>
+        
+        <div class="map-placeholder">📍 Map View (Driver Location)</div>
+
+        <div class="flex gap-8">
+          <button class="btn ghost" style="flex:1">Contact Driver</button>
+          <button class="btn secondary" style="flex:1">View Details</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Order Details</h3>
+        <div class="list-item">
+          <span>Margherita × 1</span>
+          <strong>$9.90</strong>
+        </div>
+        <div class="list-item">
+          <span>Pepperoni × 1</span>
+          <strong>$11.50</strong>
+        </div>
+        <div class="list-item">
+          <span>Delivery</span>
+          <strong>$2.00</strong>
+        </div>
+        <div class="list-item">
+          <strong>Total</strong>
+          <span class="price">$23.40</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Screen -->
+    <div class="content" id="profile">
+      <h2 class="section-title">Profile</h2>
+
+      <div class="panel">
+        <h3 class="panel-title">Account Information</h3>
+        <div class="list-item">
+          <span style="color:var(--muted)">Name</span>
+          <strong>Bill</strong>
+        </div>
+        <div class="list-item">
+          <span style="color:var(--muted)">Email</span>
+          <strong>bill@example.com</strong>
+        </div>
+        <div class="list-item">
+          <span style="color:var(--muted)">Phone</span>
+          <strong>+1 234 567 8900</strong>
+        </div>
+        <div class="list-item">
+          <span style="color:var(--muted)">Loyalty Points</span>
+          <strong style="color:var(--primary)">420 pts</strong>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Recent Orders</h3>
+        <div class="list-item">
+          <div>
+            <div style="font-weight:600">#PN-10280</div>
+            <div class="hint">Margherita • 2 days ago</div>
+          </div>
+          <strong>$9.90</strong>
+        </div>
+        <div class="list-item">
+          <div>
+            <div style="font-weight:600">#PN-10215</div>
+            <div class="hint">BBQ Chicken • 1 week ago</div>
+          </div>
+          <strong>$12.90</strong>
+        </div>
+        <div class="list-item">
+          <div>
+            <div style="font-weight:600">#PN-10199</div>
+            <div class="hint">Veggie • 2 weeks ago</div>
+          </div>
+          <strong>$10.90</strong>
+        </div>
+      </div>
+
+      <button class="btn full ghost">Edit Profile</button>
+    </div>
+
+    <!-- Settings Screen -->
+    <div class="content" id="settings">
+      <h2 class="section-title">Settings</h2>
+
+      <div class="panel">
+        <h3 class="panel-title">Preferences</h3>
+        <div class="form-group">
+          <label class="form-label">Language</label>
+          <select class="input">
+            <option>English</option>
+            <option>Deutsch</option>
+            <option>Türkçe</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Theme</label>
+          <select class="input">
+            <option>Light</option>
+            <option>Dark</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notifications</label>
+          <select class="input">
+            <option>Enabled</option>
+            <option>Disabled</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 class="panel-title">Security</h3>
+        <div class="list-item">
+          <span>Two-Factor Authentication</span>
+          <button class="btn ghost" style="padding:8px 16px;font-size:13px">Enable</button>
+        </div>
+        <div class="list-item">
+          <span>Change Password</span>
+          <button class="btn ghost" style="padding:8px 16px;font-size:13px">Update</button>
+        </div>
+      </div>
+
+      <button class="btn full ghost" style="color:var(--error);border-color:var(--error)">Log Out</button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="#home" class="nav-item active" onclick="goNav('home', this)">
+        <img src="mobile icons/home.png" alt="Home" class="nav-icon">
+        <div>Home</div>
+      </a>
+      <a href="#menu" class="nav-item" onclick="goNav('menu', this)">
+        <img src="mobile icons/pizza.png" alt="Menu" class="nav-icon">
+        <div>Menu</div>
+      </a>
+      <a href="#tracking" class="nav-item" onclick="goNav('tracking', this)">
+        <img src="mobile icons/orders.png" alt="Orders" class="nav-icon">
+        <div>Orders</div>
+      </a>
+      <a href="#profile" class="nav-item" onclick="goNav('profile', this)">
+        <img src="mobile icons/customer.png" alt="Profile" class="nav-icon">
+        <div>Profile</div>
+      </a>
+      <a href="#settings" class="nav-item" onclick="goNav('settings', this)">
+        <img src="mobile icons/settings.png" alt="Settings" class="nav-icon">
+        <div>Settings</div>
+      </a>
+    </nav>
+
+    <!-- Floating Order Button -->
+    <button class="order-now-btn" onclick="go('menu')" title="Order Now">+</button>
+  </div>
+
+  <script>
+    function go(screenId){
+      // Hide all screens
+      document.querySelectorAll('.content').forEach(s => s.classList.remove('active'));
+      // Show target screen
+      document.getElementById(screenId).classList.add('active');
+      // Scroll to top
+      window.scrollTo(0, 0);
+    }
+
+    function goNav(screenId, element){
+      event.preventDefault();
+      go(screenId);
+      // Update nav active state
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      element.classList.add('active');
+    }
+
+    // Handle hash navigation
+    window.addEventListener('hashchange', function(){
+      const hash = location.hash.replace('#', '');
+      if(hash) go(hash);
+    });
+
+    // Initialize from hash if present
+    if(location.hash){
+      const hash = location.hash.replace('#', '');
+      go(hash);
+      document.querySelector(`.nav-item[href="#${hash}"]`)?.classList.add('active');
+      document.querySelector('.nav-item.active:not([href="#' + hash + '"])')?.classList.remove('active');
+    }
+  </script>
+</body>
+</html>

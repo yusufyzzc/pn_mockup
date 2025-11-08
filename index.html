@@ -3,7 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PizzaNow – UI Mockup</title>
+  <title>PizzaNow</title>
+  <script>
+    // Mobil devices redirect to mobile.html
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      if(!window.location.href.includes('desktop=true')) {
+        window.location.href = 'mobile.html';
+      }
+    }
+  </script>
   <style>
     :root{
       --primary:#E63946;
@@ -73,41 +81,39 @@
   <div class="app" role="application">
     <aside class="sidebar" aria-label="Primary navigation">
       <div class="brand">
-        <div class="logo" aria-hidden="true">PN</div>
+        <img src="logo.jpeg" alt="PizzaNow Logo" class="logo" style="width:36px;height:36px;border-radius:50%;object-fit:cover">
         <div>
           <div style="font-weight:800;letter-spacing:.4px">PizzaNow</div>
-          <div class="hint">UI Mockup • Prototype</div>
+          <div class="hint">Prototype</div>
         </div>
       </div>
       <nav class="nav" id="nav">
-        <a href="#landing" id="link-landing" class="active">1 · Landing</a>
-        <a href="#menu" id="link-menu">2 · Menu</a>
-        <a href="#customize" id="link-customize">3 · Customize</a>
-        <a href="#cart" id="link-cart">4 · Cart & Checkout</a>
-        <a href="#tracking" id="link-tracking">5 · Order Tracking</a>
-        <a href="#profile" id="link-profile">6 · Profile</a>
-        <a href="#settings" id="link-settings">7 · Settings</a>
-        <a href="#error" id="link-error">8 · Error / Empty</a>
+        <a href="#landing" id="link-landing" class="active">Home</a>
+        <a href="#menu" id="link-menu">Menu</a>
+        <a href="#customize" id="link-customize">Customize</a>
+        <a href="#cart" id="link-cart">Cart & Checkout</a>
+        <a href="#tracking" id="link-tracking">Order Tracking</a>
+        <a href="#profile" id="link-profile">Profile</a>
+        <a href="#settings" id="link-settings">Settings</a>
         <a href="#designsystem" id="link-designsystem">◎ Design System</a>
       </nav>
     </aside>
 
     <main class="content" id="content">
-      <!-- Header controls shared -->
-      <div class="header" role="region" aria-label="Global actions">
-        <div class="search">
-          <input class="input" aria-label="Search restaurants or pizzas" placeholder="Search restaurants or pizzas…">
-          <button class="btn">Search</button>
-          <button class="btn ghost" onclick="window.print()">Export as PDF</button>
-        </div>
-        <div class="row">
-          <span class="pill">Logged in</span>
-          <button class="btn secondary">Order Now</button>
-        </div>
-      </div>
-
       <!-- 1 Landing -->
       <section class="screen active" id="landing" aria-labelledby="h-landing">
+        <!-- Header controls -->
+        <div class="header" role="region" aria-label="Global actions">
+          <div class="search">
+            <input class="input" aria-label="Search restaurants or pizzas" placeholder="Search restaurants or pizzas…">
+            <button class="btn">Search</button>
+          </div>
+          <div class="row">
+            <span class="pill">Logged in</span>
+            <button class="btn secondary">Order Now</button>
+          </div>
+        </div>
+        
         <h2 class="section-title" id="h-landing">Landing / Home</h2>
         <div class="grid two">
           <div class="panel">
@@ -178,6 +184,18 @@
 
       <!-- 2 Menu -->
       <section class="screen" id="menu" aria-labelledby="h-menu">
+        <!-- Header controls -->
+        <div class="header" role="region" aria-label="Global actions">
+          <div class="search">
+            <input class="input" aria-label="Search restaurants or pizzas" placeholder="Search restaurants or pizzas…">
+            <button class="btn">Search</button>
+          </div>
+          <div class="row">
+            <span class="pill">Logged in</span>
+            <button class="btn secondary">Order Now</button>
+          </div>
+        </div>
+        
         <h2 class="section-title" id="h-menu">Menu</h2>
         <div class="row" style="margin:6px 0 12px">
           <span class="pill">All</span>
@@ -326,9 +344,9 @@
           <div class="panel">
             <h3>Account</h3>
             <div class="list">
-              <div class="item"><span>Name</span><strong>Bill</strong></div>
-              <div class="item"><span>Email</span><strong>bill@example.com</strong></div>
-              <div class="item"><span>Loyalty</span><strong>420 pts</strong></div>
+              <div class="item"><span>Name</span><strong>Yusuf</strong></div>
+              <div class="item"><span>Email</span><strong>yusuf@example.com</strong></div>
+              <div class="item"><span>Loyalty</span><strong>420 point</strong></div>
             </div>
           </div>
           <div class="panel">
@@ -367,31 +385,6 @@
             <div class="list">
               <label class="item"><span>Two-Factor Auth</span><button class="btn ghost">Enable</button></label>
               <label class="item"><span>Change Password</span><button class="btn ghost">Update</button></label>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 8 Error/Empty -->
-      <section class="screen" id="error" aria-labelledby="h-error">
-        <h2 class="section-title" id="h-error">Error / Empty States</h2>
-        <div class="two">
-          <div class="panel">
-            <h3>Empty Cart</h3>
-            <div class="card" style="padding:18px">
-              <div class="hint">Your cart is empty.</div>
-              <div class="row" style="margin-top:10px"><button class="btn" onclick="go('#menu')">Browse Menu</button></div>
-            </div>
-          </div>
-          <div class="panel">
-            <h3>Payment Error</h3>
-            <div class="card" style="padding:18px;border-left:6px solid var(--error)">
-              <div style="font-weight:700;color:var(--error)">Payment failed</div>
-              <div class="hint">Please check your card details and try again.</div>
-              <div class="row" style="margin-top:10px">
-                <button class="btn">Retry</button>
-                <button class="btn ghost" onclick="go('#cart')">Edit Details</button>
-              </div>
             </div>
           </div>
         </div>
@@ -441,10 +434,6 @@
 }</pre>
         </div>
       </section>
-
-      <div class="hint" style="margin-top:24px">
-        Tip: Use <span class="kbd">File → Print → Save as PDF</span> or your OS snipping tool to export each screen as a PNG for the report.
-      </div>
     </main>
   </div>
 
