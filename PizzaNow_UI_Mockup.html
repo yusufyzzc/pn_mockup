@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PizzaNow – UI Mockup</title>
+  <style>
+    :root{
+      --primary:#E63946;
+      --secondary:#1D3557;
+      --accent:#F1FAEE;
+      --bg:#FFFFFF;
+      --text:#1A1A1A;
+      --success:#4CAF50;
+      --error:#B00020;
+      --muted:#6B7280;
+      --radius:16px;
+      --space:12px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,Arial,sans-serif;color:var(--text);background:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    .app{display:flex;min-height:100vh}
+    /* Sidebar (acts like mobile-tab bar when narrow) */
+    .sidebar{
+      width:280px;background:var(--secondary);color:white;padding:24px;position:sticky;top:0;height:100vh
+    }
+    .brand{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+    .logo{width:36px;height:36px;border-radius:50%;background:var(--primary);display:grid;place-items:center;font-weight:800}
+    .nav a{display:block;padding:10px 12px;border-radius:12px;color:#E9EEF6;margin-bottom:6px}
+    .nav a.active, .nav a:hover{background:rgba(255,255,255,0.1)}
+    .content{flex:1;padding:20px;background:linear-gradient(180deg,#ffffff, #fafafa)}
+    .screen{display:none;animation:fade .25s ease}
+    .screen.active{display:block}
+    @keyframes fade{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .header{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .search{flex:1;min-width:220px;display:flex;gap:8px}
+    .input{flex:1;border:1px solid #E5E7EB;border-radius:12px;padding:10px 12px;outline:none}
+    .btn{border:0;background:var(--primary);color:white;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer}
+    .btn.secondary{background:#0EA5E9}
+    .btn.ghost{background:transparent;color:var(--secondary);border:1px solid #CAD3E6}
+    .grid{display:grid;gap:16px}
+    .grid.cards{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+    .card{border:1px solid #E5E7EB;border-radius:var(--radius);overflow:hidden;background:white;box-shadow:0 2px 10px rgba(16,24,40,.06)}
+    .card .img{height:140px;background:#f6f7f9 url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22140%22><rect width=%22240%22 height=%22140%22 fill=%22%23f6f7f9%22/><text x=%2250%22 y=%2275%22 fill=%22%23c1c7d0%22 font-size=%2214%22>pizza image</text></svg>') center/cover no-repeat}
+    .card .body{padding:14px}
+    .price{font-weight:700;color:var(--secondary)}
+    .pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;background:#EEF2FF;color:#3B82F6}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .section-title{font-weight:800;font-size:22px;margin:8px 0 12px}
+    .panel{border:1px solid #E5E7EB;border-radius:16px;background:white;padding:16px}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .list{display:grid;gap:10px}
+    .list .item{display:flex;justify-content:space-between;border-bottom:1px dashed #EEE;padding:8px 0}
+    .kbd{background:#F3F4F6;border:1px solid #E5E7EB;border-bottom-width:3px;padding:2px 6px;border-radius:6px;font-family:ui-monospace,Consolas,monospace}
+    /* Mobile adjustments */
+    @media (max-width: 980px){
+      .sidebar{position:fixed;z-index:10;height:auto;width:100vw;display:flex;gap:8px;align-items:center;justify-content:space-between;top:0;padding:12px 18px}
+      .content{padding-top:84px}
+      .nav{display:flex;gap:8px;overflow-x:auto}
+      .nav a{white-space:nowrap}
+    }
+    /* Accessibility focus */
+    :focus-visible{outline:3px solid #94A3B8;outline-offset:2px}
+    /* Tokens section */
+    .token{display:grid;grid-template-columns:140px 1fr;gap:10px;align-items:center}
+    .swatch{width:32px;height:32px;border-radius:8px;border:1px solid #E5E7EB}
+    .muted{color:var(--muted)}
+    .hint{font-size:12px;color:#6B7280}
+  </style>
+</head>
+<body>
+  <div class="app" role="application">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">PN</div>
+        <div>
+          <div style="font-weight:800;letter-spacing:.4px">PizzaNow</div>
+          <div class="hint">UI Mockup • Prototype</div>
+        </div>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="#landing" id="link-landing" class="active">1 · Landing</a>
+        <a href="#menu" id="link-menu">2 · Menu</a>
+        <a href="#customize" id="link-customize">3 · Customize</a>
+        <a href="#cart" id="link-cart">4 · Cart & Checkout</a>
+        <a href="#tracking" id="link-tracking">5 · Order Tracking</a>
+        <a href="#profile" id="link-profile">6 · Profile</a>
+        <a href="#settings" id="link-settings">7 · Settings</a>
+        <a href="#error" id="link-error">8 · Error / Empty</a>
+        <a href="#designsystem" id="link-designsystem">◎ Design System</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="content">
+      <!-- Header controls shared -->
+      <div class="header" role="region" aria-label="Global actions">
+        <div class="search">
+          <input class="input" aria-label="Search restaurants or pizzas" placeholder="Search restaurants or pizzas…">
+          <button class="btn">Search</button>
+          <button class="btn ghost" onclick="window.print()">Export as PDF</button>
+        </div>
+        <div class="row">
+          <span class="pill">Logged in</span>
+          <button class="btn secondary">Order Now</button>
+        </div>
+      </div>
+
+      <!-- 1 Landing -->
+      <section class="screen active" id="landing" aria-labelledby="h-landing">
+        <h2 class="section-title" id="h-landing">Landing / Home</h2>
+        <div class="grid two">
+          <div class="panel">
+            <h3>Nearby Restaurants</h3>
+            <div class="grid cards" role="list">
+              <div class="card" role="listitem">
+                <div class="img" aria-hidden="true"></div>
+                <div class="body">
+                  <div class="row" style="justify-content:space-between">
+                    <strong>Napoli Express</strong> <span class="price">4.6 ★</span>
+                  </div>
+                  <div class="hint">Italian • 25–35 min • $</div>
+                  <div class="row" style="margin-top:10px">
+                    <button class="btn" onclick="go('#menu')">View Menu</button>
+                    <button class="btn ghost">Save</button>
+                  </div>
+                </div>
+              </div>
+              <div class="card" role="listitem">
+                <div class="img" aria-hidden="true"></div>
+                <div class="body">
+                  <div class="row" style="justify-content:space-between">
+                    <strong>Roma Slice</strong> <span class="price">4.4 ★</span>
+                  </div>
+                  <div class="hint">Italian • 20–30 min • $$</div>
+                  <div class="row" style="margin-top:10px">
+                    <button class="btn" onclick="go('#menu')">View Menu</button>
+                    <button class="btn ghost">Save</button>
+                  </div>
+                </div>
+              </div>
+              <div class="card" role="listitem">
+                <div class="img" aria-hidden="true"></div>
+                <div class="body">
+                  <div class="row" style="justify-content:space-between">
+                    <strong>Brooklyn Pie</strong> <span class="price">4.8 ★</span>
+                  </div>
+                  <div class="hint">New York • 30–40 min • $$</div>
+                  <div class="row" style="margin-top:10px">
+                    <button class="btn" onclick="go('#menu')">View Menu</button>
+                    <button class="btn ghost">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Promotions</h3>
+            <div class="card" style="display:flex;align-items:center;gap:14px;padding:14px">
+              <div class="swatch" style="background:var(--primary)"></div>
+              <div>
+                <strong>2x1 Tuesdays</strong>
+                <div class="hint">Buy one get one free on classic pizzas</div>
+              </div>
+              <button class="btn" style="margin-left:auto" onclick="go('#menu')">Order</button>
+            </div>
+            <div class="card" style="display:flex;align-items:center;gap:14px;padding:14px;margin-top:10px">
+              <div class="swatch" style="background:#0EA5E9"></div>
+              <div>
+                <strong>Free Delivery</strong>
+                <div class="hint">Orders over $25</div>
+              </div>
+              <button class="btn ghost" style="margin-left:auto" onclick="go('#menu')">See menu</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2 Menu -->
+      <section class="screen" id="menu" aria-labelledby="h-menu">
+        <h2 class="section-title" id="h-menu">Menu</h2>
+        <div class="row" style="margin:6px 0 12px">
+          <span class="pill">All</span>
+          <span class="pill">Vegetarian</span>
+          <span class="pill">Spicy</span>
+          <span class="pill">Best Seller</span>
+        </div>
+        <div class="grid cards">
+          <!-- 4 pizza cards -->
+          <div class="card">
+            <div class="img"></div>
+            <div class="body">
+              <div class="row" style="justify-content:space-between"><strong>Margherita</strong><span class="price">$9.90</span></div>
+              <div class="hint">Tomato • Mozzarella • Basil</div>
+              <div class="row" style="margin-top:10px">
+                <button class="btn" onclick="go('#customize')">Customize</button>
+                <button class="btn ghost" onclick="go('#cart')">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="img"></div>
+            <div class="body">
+              <div class="row" style="justify-content:space-between"><strong>Pepperoni</strong><span class="price">$11.50</span></div>
+              <div class="hint">Pepperoni • Cheese • Oregano</div>
+              <div class="row" style="margin-top:10px">
+                <button class="btn" onclick="go('#customize')">Customize</button>
+                <button class="btn ghost" onclick="go('#cart')">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="img"></div>
+            <div class="body">
+              <div class="row" style="justify-content:space-between"><strong>BBQ Chicken</strong><span class="price">$12.90</span></div>
+              <div class="hint">Chicken • BBQ Sauce • Onion</div>
+              <div class="row" style="margin-top:10px">
+                <button class="btn" onclick="go('#customize')">Customize</button>
+                <button class="btn ghost" onclick="go('#cart')">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="img"></div>
+            <div class="body">
+              <div class="row" style="justify-content:space-between"><strong>Veggie</strong><span class="price">$10.90</span></div>
+              <div class="hint">Peppers • Olives • Mushrooms</div>
+              <div class="row" style="margin-top:10px">
+                <button class="btn" onclick="go('#customize')">Customize</button>
+                <button class="btn ghost" onclick="go('#cart')">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 Customize -->
+      <section class="screen" id="customize" aria-labelledby="h-customize">
+        <h2 class="section-title" id="h-customize">Pizza Customization</h2>
+        <div class="two">
+          <div class="panel">
+            <h3>Choose Size</h3>
+            <div class="list">
+              <label class="item"><span>Small (25 cm)</span><input type="radio" name="size"></label>
+              <label class="item"><span>Medium (30 cm)</span><input type="radio" name="size" checked></label>
+              <label class="item"><span>Large (35 cm)</span><input type="radio" name="size"></label>
+            </div>
+            <h3 style="margin-top:12px">Crust</h3>
+            <div class="list">
+              <label class="item"><span>Classic</span><input type="radio" name="crust" checked></label>
+              <label class="item"><span>Thin</span><input type="radio" name="crust"></label>
+              <label class="item"><span>Cheese-stuffed</span><input type="radio" name="crust"></label>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Toppings</h3>
+            <div class="list">
+              <label class="item"><span>Mozzarella</span><input type="checkbox" checked></label>
+              <label class="item"><span>Pepperoni</span><input type="checkbox"></label>
+              <label class="item"><span>Mushrooms</span><input type="checkbox"></label>
+              <label class="item"><span>Onion</span><input type="checkbox"></label>
+              <label class="item"><span>Olives</span><input type="checkbox"></label>
+            </div>
+            <div class="row" style="margin-top:14px;justify-content:space-between">
+              <div>Total: <span class="price">$12.90</span></div>
+              <div class="row">
+                <button class="btn ghost" onclick="go('#menu')">Back</button>
+                <button class="btn" onclick="go('#cart')">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 Cart & Checkout -->
+      <section class="screen" id="cart" aria-labelledby="h-cart">
+        <h2 class="section-title" id="h-cart">Cart & Checkout</h2>
+        <div class="two">
+          <div class="panel">
+            <h3>Order Summary</h3>
+            <div class="list">
+              <div class="item"><span>Margherita × 1</span><strong>$9.90</strong></div>
+              <div class="item"><span>Pepperoni × 1</span><strong>$11.50</strong></div>
+              <div class="item"><span class="muted">Delivery</span><strong>$2.00</strong></div>
+              <div class="item"><span><strong>Total</strong></span><strong class="price">$23.40</strong></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Payment Details</h3>
+            <div class="list">
+              <label class="item"><span>Card Number</span><input class="input" placeholder="**** **** **** 4242"></label>
+              <label class="item"><span>Expiry</span><input class="input" placeholder="MM/YY"></label>
+              <label class="item"><span>CVC</span><input class="input" placeholder="***"></label>
+              <label class="item"><span>Address</span><input class="input" placeholder="Street, City"></label>
+            </div>
+            <div class="row" style="margin-top:14px;justify-content:flex-end">
+              <button class="btn ghost" onclick="go('#menu')">Continue Shopping</button>
+              <button class="btn" onclick="go('#tracking')">Pay & Place Order</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 Tracking -->
+      <section class="screen" id="tracking" aria-labelledby="h-tracking">
+        <h2 class="section-title" id="h-tracking">Order Tracking</h2>
+        <div class="panel">
+          <div class="row" style="justify-content:space-between">
+            <div><strong>Order #PN-10293</strong><div class="hint">Placed 5 min ago</div></div>
+            <div class="pill">On the way • ETA 12 min</div>
+          </div>
+          <div class="card" style="height:240px;margin-top:12px;display:grid;place-items:center">
+            <div class="hint">Map placeholder (driver location)</div>
+          </div>
+          <div class="row" style="margin-top:12px;justify-content:flex-end;gap:8px">
+            <button class="btn ghost">Contact Driver</button>
+            <button class="btn secondary">View Details</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6 Profile -->
+      <section class="screen" id="profile" aria-labelledby="h-profile">
+        <h2 class="section-title" id="h-profile">Profile</h2>
+        <div class="two">
+          <div class="panel">
+            <h3>Account</h3>
+            <div class="list">
+              <div class="item"><span>Name</span><strong>Bill</strong></div>
+              <div class="item"><span>Email</span><strong>bill@example.com</strong></div>
+              <div class="item"><span>Loyalty</span><strong>420 pts</strong></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Order History</h3>
+            <div class="list">
+              <div class="item"><span>#PN-10280 – Margherita</span><strong>$9.90</strong></div>
+              <div class="item"><span>#PN-10215 – BBQ Chicken</span><strong>$12.90</strong></div>
+              <div class="item"><span>#PN-10199 – Veggie</span><strong>$10.90</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7 Settings -->
+      <section class="screen" id="settings" aria-labelledby="h-settings">
+        <h2 class="section-title" id="h-settings">Settings</h2>
+        <div class="two">
+          <div class="panel">
+            <h3>Preferences</h3>
+            <div class="list">
+              <label class="item"><span>Language</span>
+                <select class="input" aria-label="Language">
+                  <option>English</option><option>Deutsch</option><option>Türkçe</option>
+                </select>
+              </label>
+              <label class="item"><span>Theme</span>
+                <select class="input" aria-label="Theme"><option>Light</option><option>Dark</option></select>
+              </label>
+              <label class="item"><span>Notifications</span>
+                <select class="input" aria-label="Notifications"><option>Enabled</option><option>Disabled</option></select>
+              </label>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Security</h3>
+            <div class="list">
+              <label class="item"><span>Two-Factor Auth</span><button class="btn ghost">Enable</button></label>
+              <label class="item"><span>Change Password</span><button class="btn ghost">Update</button></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8 Error/Empty -->
+      <section class="screen" id="error" aria-labelledby="h-error">
+        <h2 class="section-title" id="h-error">Error / Empty States</h2>
+        <div class="two">
+          <div class="panel">
+            <h3>Empty Cart</h3>
+            <div class="card" style="padding:18px">
+              <div class="hint">Your cart is empty.</div>
+              <div class="row" style="margin-top:10px"><button class="btn" onclick="go('#menu')">Browse Menu</button></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Payment Error</h3>
+            <div class="card" style="padding:18px;border-left:6px solid var(--error)">
+              <div style="font-weight:700;color:var(--error)">Payment failed</div>
+              <div class="hint">Please check your card details and try again.</div>
+              <div class="row" style="margin-top:10px">
+                <button class="btn">Retry</button>
+                <button class="btn ghost" onclick="go('#cart')">Edit Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Design System tokens (for report) -->
+      <section class="screen" id="designsystem" aria-labelledby="h-ds">
+        <h2 class="section-title" id="h-ds">Design System (Tokens & Specs)</h2>
+        <div class="panel">
+          <h3>Color Tokens</h3>
+          <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px">
+            <div class="token"><div class="swatch" style="background:var(--primary)"></div><div><strong>--primary</strong><div class="hint">#E63946</div></div></div>
+            <div class="token"><div class="swatch" style="background:var(--secondary)"></div><div><strong>--secondary</strong><div class="hint">#1D3557</div></div></div>
+            <div class="token"><div class="swatch" style="background:var(--accent)"></div><div><strong>--accent</strong><div class="hint">#F1FAEE</div></div></div>
+            <div class="token"><div class="swatch" style="background:var(--success)"></div><div><strong>--success</strong><div class="hint">#4CAF50</div></div></div>
+            <div class="token"><div class="swatch" style="background:var(--error)"></div><div><strong>--error</strong><div class="hint">#B00020</div></div></div>
+          </div>
+        </div>
+        <div class="two" style="margin-top:14px">
+          <div class="panel">
+            <h3>Typography Scale</h3>
+            <div style="font-weight:800;font-size:24px">Heading 1</div>
+            <div style="font-weight:600;font-size:20px">Heading 2</div>
+            <div>Body (16px)</div>
+            <div style="font-style:italic;color:#6B7280">Caption (14px)</div>
+          </div>
+          <div class="panel">
+            <h3>Component States</h3>
+            <div class="row">
+              <button class="btn">Default</button>
+              <button class="btn" style="opacity:.7;cursor:not-allowed" aria-disabled="true">Disabled</button>
+              <button class="btn ghost">Ghost</button>
+              <button class="btn secondary">Secondary</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:14px">
+          <h3>CSS Variables (for developers)</h3>
+          <pre class="kbd">:root{
+  --primary:#E63946;
+  --secondary:#1D3557;
+  --accent:#F1FAEE;
+  --success:#4CAF50;
+  --error:#B00020;
+  --radius:16px;
+  --space:12px;
+}</pre>
+        </div>
+      </section>
+
+      <div class="hint" style="margin-top:24px">
+        Tip: Use <span class="kbd">File → Print → Save as PDF</span> or your OS snipping tool to export each screen as a PNG for the report.
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function go(hash){ location.hash = hash; route(); }
+    function route(){
+      const hash = location.hash || '#landing';
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelector(hash)?.classList.add('active');
+      document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));
+      const id = 'link-' + hash.replace('#','');
+      document.getElementById(id)?.classList.add('active');
+    }
+    window.addEventListener('hashchange', route);
+    window.addEventListener('DOMContentLoaded', route);
+  </script>
+</body>
+</html>
